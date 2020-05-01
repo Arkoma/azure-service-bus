@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29102.190
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceBusQueue", "ServiceBusQueue\ServiceBusQueue.csproj", "{21A9B251-D759-46C9-B2B9-96497BCD011B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{21A9B251-D759-46C9-B2B9-96497BCD011B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{21A9B251-D759-46C9-B2B9-96497BCD011B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{21A9B251-D759-46C9-B2B9-96497BCD011B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{21A9B251-D759-46C9-B2B9-96497BCD011B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CBF263A8-B14A-496C-8918-7D8E1EA80BD6}
+	EndGlobalSection
+EndGlobal
