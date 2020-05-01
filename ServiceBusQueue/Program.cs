@@ -11,7 +11,7 @@ namespace ServiceBusQueue
     class Program
     {
         // Add the details for the connection string and queue name
-        const string connString = "Endpoint=sb://demoservice2020.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=+j2ZHU5JeWNeOu7yar0BCiKIi+BZu+7IlV+moCcSwA8=";
+        const string connString = "Endpoint=sb://demobusservice2020.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=tEljZDT4y70rTYplPHjmUiyE/dohNvCQcUCXMCf5vbE=";
         const string queue_name = "demoqueue";
         static QueueClient l_queueClient;
         static void Main(string[] args)
@@ -22,6 +22,13 @@ namespace ServiceBusQueue
         static async Task MainFunction()
         {
             l_queueClient = new QueueClient(connString, queue_name);
+            /**
+             * for the purpose of this demo both SendMessage and
+             * ReceiveMessage Tasks have been set up, but in a 
+             * typical application you would only do one or the 
+             * other depending on whether the application is a 
+             * sender or a reciever application
+             */
             //SendMessage().Wait();
             ReceiveMessage().Wait();
             Console.ReadKey();
@@ -31,7 +38,7 @@ namespace ServiceBusQueue
         static async Task SendMessage()
         {
             // Construct and encode the message
-            string l_messageBody = "This is a sample message";
+            string l_messageBody = "This is Aaron's sample message";
             var l_message = new Message(Encoding.UTF8.GetBytes(l_messageBody));
 
             Console.WriteLine("Sending the message");
