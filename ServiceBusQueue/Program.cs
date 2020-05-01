@@ -11,9 +11,13 @@ namespace ServiceBusQueue
     class Program
     {
         // Add the details for the connection string and queue name
-        const string connString = "Endpoint=sb://demobusservice2020.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=tEljZDT4y70rTYplPHjmUiyE/dohNvCQcUCXMCf5vbE=";
-        const string queue_name = "demoqueue";
-        static QueueClient l_queueClient;
+        const string connString = "Endpoint=sb://demobusservice2020.servicebus.windows.net/;" +
+                                  "SharedAccessKeyName=RootManageSharedAccessKey;" +
+                                  "SharedAccessKey=tEljZDT4y70rTYplPHjmUiyE/dohNvCQcUCXMCf5vbE=";
+        const string topic_name = "demotopic";
+        const string subscriptionName = "SubscriptionA";
+        static SubscriptionClient l_subscriptionClient;
+        static TopicClient l_topicClient;
         static void Main(string[] args)
         {
             MainFunction().GetAwaiter().GetResult();
@@ -21,7 +25,8 @@ namespace ServiceBusQueue
         }
         static async Task MainFunction()
         {
-            l_queueClient = new QueueClient(connString, queue_name);
+            l_topicClient = new TopicClient(connString, topic_name);
+            l_subscriptionClient = new SubscriptionClient(connString, topic_name, subscriptionName);
             /**
              * for the purpose of this demo both SendMessage and
              * ReceiveMessage Tasks have been set up, but in a 
@@ -29,10 +34,11 @@ namespace ServiceBusQueue
              * other depending on whether the application is a 
              * sender or a reciever application
              */
-            //SendMessage().Wait();
+            // SendMessage().Wait();
             ReceiveMessage().Wait();
             Console.ReadKey();
-            await l_queueClient.CloseAsync();
+            await l_topicClient.CloseAsync();
+            // await l_subscriptionClient.CloseAsync();
         }
 
         static async Task SendMessage()
@@ -44,8 +50,8 @@ namespace ServiceBusQueue
             Console.WriteLine("Sending the message");
 
             // Let the queue client send the message
-            await l_queueClient.SendAsync(l_message);
-            await l_queueClient.CloseAsync();
+            await l_topicClient.SendAsync(l_message);
+            await l_topicClient.CloseAsync();
         }
 
         static async Task ReceiveMessage()
@@ -59,7 +65,7 @@ namespace ServiceBusQueue
             };
 
             // We have to register a function that will be used to receive the messages
-            l_queueClient.RegisterMessageHandler(MessageProcessor, l_Options);
+            l_subscriptionClient.RegisterMessageHandler(MessageProcessor, l_Options);
          
         }
         static Task ExceptionHandler(ExceptionReceivedEventArgs exceptionReceivedEventArgs)
@@ -75,7 +81,7 @@ namespace ServiceBusQueue
             Console.WriteLine($"Received message: SequenceNumber:{message.SystemProperties.SequenceNumber} Body:{Encoding.UTF8.GetString(message.Body)}");
             
             // Complete the receival of the message so that it is not read by anyone else
-            await l_queueClient.CompleteAsync(message.SystemProperties.LockToken);
+            await l_subscriptionClient.CompleteAsync(message.SystemProperties.LockToken);
         }
     }
 }
